@@ -1,0 +1,22 @@
+{
+    "name": "davefx/sql-injection-in-php",
+    "description": "Code related to article SQL Injection in PHP",
+    "type": "project",
+    "require": {
+        "php": ">=7.0.0",
+        "ext-pdo_sqlite": "*"
+    },
+    "license": "GPL-3",
+    "authors": [
+        {
+            "name": "David Marín",
+            "email": "david.marin@toptal.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SqlInjection\\": "classes/"
+        }
+    }
+}
+
