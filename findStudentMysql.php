@@ -15,11 +15,11 @@
 
 require 'vendor/autoload.php';
 
-use SqlInjection\SQLiteConnection;
+use SqlInjection\MySQLConnection;
 
-$pdo = ( new SQLiteConnection() )->connect();
+$pdo = ( new MySQLConnection() )->connect();
 if ( $pdo === null ) {
-	echo 'Whoops, could not connect to the SQLite database!';
+	echo 'Whoops, could not connect to the MySQL database!';
 } else {
 
 	?>
@@ -42,7 +42,7 @@ if ( $pdo === null ) {
 
 	if ( ! empty( $first_name ) || ! empty( $last_name ) ) {
 
-		$query = 'SELECT id, first_name, last_name, birth_date from Students where 1=1 ';
+		$query = 'SELECT id, first_name, last_name, birth_date from students where 1=1 ';
 
 		if ( isset( $_GET['first_name'] ) && ! empty( $_GET['first_name'] ) ) {
 			$query .= "AND first_name LIKE '%{$_GET['first_name']}%' ";
@@ -53,6 +53,10 @@ if ( $pdo === null ) {
 		}
 
 		$result = $pdo->query( $query );
+
+		if ( ! $result) {
+			echo print_r($pdo->errorInfo());
+		}
 
 		?>
 		<table class="table table-striped">

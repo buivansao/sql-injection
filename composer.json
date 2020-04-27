@@ -4,6 +4,7 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "ext-pdo_mysql": "*",
         "ext-pdo_sqlite": "*"
     },
     "license": "GPL-3",
