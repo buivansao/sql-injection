@@ -11,63 +11,38 @@
 </head>
 <body>
 <div class="container">
-<h1>Manage Students</h1>
-<?php
+	<h1>Manage Students</h1>
+	<hr/>
+	<?php
 
-require 'vendor/autoload.php';
+	require 'vendor/autoload.php';
 
-use SqlInjection\SQLiteConnection;
+	use SqlInjection\SQLiteConnection;
 
-$pdo = ( new SQLiteConnection() )->connect();
-if ( $pdo === null ) {
-	echo 'Whoops, could not connect to the SQLite database!';
-} else {
+	$pdo = ( new SQLiteConnection() )->connect();
+	if ( $pdo === null ) {
+		echo 'Whoops, could not connect to the SQLite database!';
+	} else {
 
-	$action = $_GET['action'] ?? '';
+		$action = $_GET['action'] ?? '';
 
-	if ( $action === 'delete' && isset( $_GET['id'] ) && (int) $_GET['id'] > 0 ) {
+		if ( $action === 'delete' && isset( $_GET['id'] ) && (int) $_GET['id'] > 0 ) {
 
-		$id = $_GET['id'];
-		$delete_query = 'DELETE FROM students where id = ' . $id;
+			$id           = $_GET['id'];
+			$delete_query = 'DELETE FROM students where id = ' . $id;
 
-		$result = $pdo->exec( $delete_query );
-
-		if ( $result ) {
-			?>
-			<div class="alert alert-success" role="alert">
-				User <?= $id ?> deleted
-			</div>
-			<?php
-		} else {
-			?>
-			<div class="alert alert-warning" role="alert">
-				Couldn't find user <?= $id ?>
-			</div>
-			<?php
-		}
-		?>
-		<a class="btn btn-primary active" href="?action=search">Back</a>
-		<?php
-		die();
-	}
-
-	if ( $action === 'update'  && isset( $_GET['id'] ) && (int) $_GET['id'] > 0 ) {
-		if ( isset( $_GET['first_name'], $_GET['last_name'], $_GET['birth_date'] ) ) {
-
-			$insert_query = "UPDATE students SET first_name='{$_GET['first_name']}', last_name='{$_GET['last_name']}', birth_date='{$_GET['birth_date']}' WHERE id={$_GET['id']}";
-
-			$result = $pdo->exec( $insert_query );
+			$result = $pdo->exec( $delete_query );
 
 			if ( $result ) {
 				?>
 				<div class="alert alert-success" role="alert">
-					User updated
+					User <?= $id ?> deleted
 				</div>
 				<?php
 			} else {
 				?>
 				<div class="alert alert-warning" role="alert">
-					There was a problem while updating the new user: <?= json_encode( $pdo->errorInfo() )?>
+					Couldn't find user <?= $id ?>
 				</div>
 				<?php
 			}
@@ -77,175 +52,204 @@ if ( $pdo === null ) {
 			die();
 		}
 
-		$query = "SELECT id, first_name, last_name, birth_date from students where id={$_GET['id']}";
-		$row = $pdo->query($query)->fetch();
+		if ( $action === 'update' && isset( $_GET['id'] ) && (int) $_GET['id'] > 0 ) {
+			if ( isset( $_GET['first_name'], $_GET['last_name'], $_GET['birth_date'] ) ) {
 
-		?>
-		<h2>Editing student <?=$_GET['id']?></h2>
-		<form method="get">
-			<input type="hidden" name="action" value="update"/>
-			<input type="hidden" name="id" value="<?=$_GET['id']?>"
-			<label>
-				First name:
-				<input type="text" name="first_name" value="<?=$row['first_name']?>"/>
-			</label>
-			<br/>
-			<label>
-				Last name:
-				<input type="text" name="last_name" value="<?=$row['last_name']?>"/>
-			</label>
-			<br/>
-			<label>
-				Birth date:
-				<input type="text" name="birth_date" value="<?=$row['birth_date']?>"/>
-			</label>
+				$insert_query = "UPDATE students SET first_name='{$_GET['first_name']}', last_name='{$_GET['last_name']}', birth_date='{$_GET['birth_date']}' WHERE id={$_GET['id']}";
+
+				$result = $pdo->exec( $insert_query );
+
+				if ( $result ) {
+					?>
+					<div class="alert alert-success" role="alert">
+						User updated
+					</div>
+					<?php
+				} else {
+					?>
+					<div class="alert alert-warning" role="alert">
+						There was a problem while updating the new user: <?= json_encode( $pdo->errorInfo() ) ?>
+					</div>
+					<?php
+				}
+				?>
+				<a class="btn btn-primary active" href="?action=search">Back</a>
+				<?php
+				die();
+			}
+
+			$query = "SELECT id, first_name, last_name, birth_date from students where id={$_GET['id']}";
+			$row   = $pdo->query( $query )->fetch();
+
+			?>
+			<h2>Editing student <?= $_GET['id'] ?></h2>
 			<hr/>
-			<input type="submit" class="btn btn-primary">
-			<a href="?action=search" class="btn btn-secondary">Back</a>
-		</form>
-		<?php
-		die();
-	}
-
-	if ( $action === 'insert' ) {
-		if ( isset( $_GET['first_name'], $_GET['last_name'], $_GET['birth_date'] ) ) {
-
-			$insert_query = 'INSERT INTO students(first_name, last_name, birth_date) VALUES ('.
-			                "'{$_GET['first_name']}', '{$_GET['last_name']}', '{$_GET['birth_date']}')";
-
-			$result = $pdo->exec( $insert_query );
-
-			if ( $result ) {
-				?>
-				<div class="alert alert-success" role="alert">
-					User inserted
-				</div>
-				<?php
-			} else {
-				?>
-				<div class="alert alert-warning" role="alert">
-					There was a problem while inserting the new user: <?= json_encode( $pdo->errorInfo() )?>
-				</div>
-				<?php
-			}
-			?>
-			<a class="btn btn-primary active" href="?action=search">Back</a>
-			<?php
-			die();
-		}
-
-		?>
-		<form method="get">
-			<input type="hidden" name="action" value="insert"/>
-			<div>
+			<form method="get">
+				<input type="hidden" name="action" value="update"/>
+				<input type="hidden" name="id" value="<?= $_GET['id'] ?>"
 				<label>
 					First name:
-					<input type="text" name="first_name" >
+					<input type="text" name="first_name" value="<?= $row['first_name'] ?>"/>
 				</label>
-			</div>
-			<div>
+				<br/>
 				<label>
 					Last name:
-					<input type="text" name="last_name" >
+					<input type="text" name="last_name" value="<?= $row['last_name'] ?>"/>
 				</label>
-			</div>
-			<div>
+				<br/>
 				<label>
 					Birth date:
-					<input type="text" name="birth_date" >
+					<input type="text" name="birth_date" value="<?= $row['birth_date'] ?>"/>
 				</label>
-			</div>
-			<input type="submit" class="btn btn-primary">
-			<a href="?action=search" class="btn btn-secondary">Back</a>
-		</form>
-		<?php
-		die();
-	}
-
-	?>
-	<form method="get">
-		<input type="hidden" name="action" value="search"/>
-		<label>
-			First name:
-			<input type="text" name="first_name" value="<?= $_GET['first_name'] ?? '' ?>">
-		</label>
-		<label>
-			Last name:
-			<input type="text" name="last_name" value="<?= $_GET['last_name'] ?? '' ?>">
-		</label>
-		<input type="submit">
-	</form>
-
-	<?php
-	$first_name = $_GET['first_name'] ?? '';
-	$last_name  = $_GET['last_name'] ?? '';
-
-	$count_query  = 'SELECT COUNT(*) as num_rows from students where 1=1 ';
-
-	$query = 'SELECT id, first_name, last_name, birth_date from students where 1=1 ';
-
-	$filters = '';
-
-	if ( $action === 'search' && ( ! empty( $first_name ) || ! empty( $last_name ) ) ) {
-
-		if ( isset( $_GET['first_name'] ) && ! empty( $_GET['first_name'] ) ) {
-			$filters .= "AND first_name LIKE '%{$_GET['first_name']}%' ";
+				<hr/>
+				<input type="submit" class="btn btn-primary" value="Submit">
+				<a href="?action=search" class="btn btn-secondary">Back</a>
+			</form>
+			<?php
+			die();
 		}
 
-		if ( isset( $_GET['last_name'] ) && ! empty( $_GET['last_name'] ) ) {
-			$filters .= "AND last_name LIKE '%{$_GET['last_name']}%' ";
+		if ( $action === 'insert' ) {
+			if ( isset( $_GET['first_name'], $_GET['last_name'], $_GET['birth_date'] ) ) {
+
+				$insert_query = 'INSERT INTO students(first_name, last_name, birth_date) VALUES (' .
+				                "'{$_GET['first_name']}', '{$_GET['last_name']}', '{$_GET['birth_date']}')";
+
+				$result = $pdo->exec( $insert_query );
+
+				if ( $result ) {
+					?>
+					<div class="alert alert-success" role="alert">
+						User inserted
+					</div>
+					<?php
+				} else {
+					?>
+					<div class="alert alert-warning" role="alert">
+						There was a problem while inserting the new user: <?= json_encode( $pdo->errorInfo() ) ?>
+					</div>
+					<?php
+				}
+				?>
+				<a class="btn btn-primary active" href="?action=search">Back</a>
+				<?php
+				die();
+			}
+
+			?>
+			<h2>Add Student</h2>
+			<hr/>
+			<form method="get">
+				<input type="hidden" name="action" value="insert"/>
+				<div>
+					<label>
+						First name:
+						<input type="text" name="first_name">
+					</label>
+				</div>
+				<div>
+					<label>
+						Last name:
+						<input type="text" name="last_name">
+					</label>
+				</div>
+				<div>
+					<label>
+						Birth date:
+						<input type="text" name="birth_date">
+					</label>
+				</div>
+				<input type="submit" class="btn btn-primary" value="Submit">
+				<a href="?action=search" class="btn btn-secondary">Back</a>
+			</form>
+			<?php
+			die();
 		}
-	}
 
-	$count_result = $pdo->query( $count_query . $filters )->fetch()['num_rows'];
-
-	$num_pages = ( $count_result / 5 ) + ( ( $count_result % 5 ) ? 1 : 0);
-
-	$page = $_GET['page'] ?? 1;
-	$query .= $filters . ' LIMIT 5 OFFSET ' . ($page - 1) * 5;
-
-	$result = $pdo->query( $query );
-
-	?>
-	<table class="table table-striped">
-		<thead>
-		<tr>
-			<th scope="col">Id</th>
-			<th scope="col">First name</th>
-			<th scope="col">Last name</th>
-			<th scope="col">Birth date</th>
-			<th scope="col">Actions</th>
-		</tr>
-		</thead>
-		<tbody>
-		<?php
-		foreach ( $result as $row ) {
-			echo '<tr>';
-			echo '<th scope="row">' . $row['id'] . '</th>';
-			echo '<td>' . $row['first_name'] . '</td>';
-			echo '<td>' . $row['last_name'] . '</td>';
-			echo '<td>' . $row['birth_date'] . '</td>';
-			echo '<td>';
-			echo '<a href="?action=update&id=' . $row['id'] . '"><i class="fas fa-pencil-alt"></i></a>&nbsp;';
-			echo '<a href="?action=delete&id=' . $row['id'] . '"><i class="fas fa-trash"></i></a>';
-			echo '</td>';
-			echo '</tr>';
-		}
 		?>
-		</tbody>
-	</table>
-	<p>Number of students: <?=$count_result?></p>
-	<?php
-	for ( $i=1; $i <= $num_pages; $i++ ) {
-		if ( $action === 'search' ) {
-			$filter = '&action=search&first_name=' . ( $_GET['first_name'] ?? '' ) . '&last_name=' . ( $_GET['lastname'] ?? '' );
-		} else {
-			$filter = '';
+		<form method="get">
+			<input type="hidden" name="action" value="search"/>
+			<label>
+				First name:
+				<input type="text" name="first_name" value="<?= $_GET['first_name'] ?? '' ?>">
+			</label>
+			<label>
+				Last name:
+				<input type="text" name="last_name" value="<?= $_GET['last_name'] ?? '' ?>">
+			</label>
+			<input type="submit" value="Submit">
+		</form>
+
+		<?php
+		$first_name = $_GET['first_name'] ?? '';
+		$last_name  = $_GET['last_name'] ?? '';
+
+		$count_query = 'SELECT COUNT(*) as num_rows from students where 1=1 ';
+
+		$query = 'SELECT id, first_name, last_name, birth_date from students where 1=1 ';
+
+		$filters = '';
+
+		if ( $action === 'search' && ( ! empty( $first_name ) || ! empty( $last_name ) ) ) {
+
+			if ( isset( $_GET['first_name'] ) && ! empty( $_GET['first_name'] ) ) {
+				$filters .= "AND first_name LIKE '%{$_GET['first_name']}%' ";
+			}
+
+			if ( isset( $_GET['last_name'] ) && ! empty( $_GET['last_name'] ) ) {
+				$filters .= "AND last_name LIKE '%{$_GET['last_name']}%' ";
+			}
 		}
-		echo '<a href="?page=' . $i . $filter . '">' . $i . '</a> ';
+
+		$count_result = $pdo->query( $count_query . $filters )->fetch()['num_rows'];
+
+		$num_pages = ( $count_result / 5 ) + ( ( $count_result % 5 ) ? 1 : 0 );
+
+		$page  = $_GET['page'] ?? 1;
+		$query .= $filters . ' LIMIT 5 OFFSET ' . ( $page - 1 ) * 5;
+
+		$result = $pdo->query( $query );
+
+		?>
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th scope="col">Id</th>
+				<th scope="col">First name</th>
+				<th scope="col">Last name</th>
+				<th scope="col">Birth date</th>
+				<th scope="col">Actions</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php
+			foreach ( $result as $row ) {
+				echo '<tr>';
+				echo '<th scope="row">' . $row['id'] . '</th>';
+				echo '<td>' . $row['first_name'] . '</td>';
+				echo '<td>' . $row['last_name'] . '</td>';
+				echo '<td>' . $row['birth_date'] . '</td>';
+				echo '<td>';
+				echo '<a href="?action=update&id=' . $row['id'] . '"><i class="fas fa-pencil-alt"></i></a>&nbsp;';
+				echo '<a href="?action=delete&id=' . $row['id'] . '"><i class="fas fa-trash"></i></a>';
+				echo '</td>';
+				echo '</tr>';
+			}
+			?>
+			</tbody>
+		</table>
+		<p>Number of students: <?= $count_result ?></p>
+		<?php
+		for ( $i = 1; $i <= $num_pages; $i ++ ) {
+			if ( $action === 'search' ) {
+				$filter = '&action=search&first_name=' . ( $_GET['first_name'] ?? '' ) . '&last_name=' . ( $_GET['lastname'] ?? '' );
+			} else {
+				$filter = '';
+			}
+			echo '<a href="?page=' . $i . $filter . '">' . $i . '</a> ';
+		}
 	}
-}
-?>
+	?>
 	<hr/>
 	<a href="?action=insert" class="btn btn-primary">Add Student</a>
 </div>

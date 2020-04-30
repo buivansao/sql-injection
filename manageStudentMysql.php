@@ -7,11 +7,12 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<script src="https://kit.fontawesome.com/214f4b7d30.js" crossorigin="anonymous"></script>
-	<title>Find Student</title>
+	<title>Manage Students</title>
 </head>
 <body>
 <div class="container">
 	<h1>Manage Students</h1>
+	<hr/>
 	<?php
 
 	require 'vendor/autoload.php';
@@ -26,7 +27,7 @@
 
 		if ( $action == 'delete' && isset( $_GET['id'] ) && (int) $_GET['id'] > 0 ) {
 
-			$id = $_GET['id'];
+			$id           = $_GET['id'];
 			$delete_query = 'DELETE FROM students where id = ' . $id;
 
 			$result = $pdo->exec( $delete_query );
@@ -50,7 +51,7 @@
 			die();
 		}
 
-		if ( $action === 'update'  && isset( $_GET['id'] ) && (int) $_GET['id'] > 0 ) {
+		if ( $action === 'update' && isset( $_GET['id'] ) && (int) $_GET['id'] > 0 ) {
 			if ( isset( $_GET['first_name'], $_GET['last_name'], $_GET['birth_date'] ) ) {
 
 				$insert_query = "UPDATE students SET first_name='{$_GET['first_name']}', last_name='{$_GET['last_name']}', birth_date='{$_GET['birth_date']}' WHERE id={$_GET['id']}";
@@ -66,7 +67,7 @@
 				} else {
 					?>
 					<div class="alert alert-warning" role="alert">
-						There was a problem while updating the new user: <?= json_encode( $pdo->errorInfo() )?>
+						There was a problem while updating the new user: <?= json_encode( $pdo->errorInfo() ) ?>
 					</div>
 					<?php
 				}
@@ -77,29 +78,30 @@
 			}
 
 			$query = "SELECT id, first_name, last_name, birth_date from students where id={$_GET['id']}";
-			$row = $pdo->query($query)->fetch();
+			$row   = $pdo->query( $query )->fetch();
 
 			?>
-			<h2>Editing student <?=$_GET['id']?></h2>
+			<h2>Editing student <?= $_GET['id'] ?></h2>
+			<hr/>
 			<form method="get">
 				<input type="hidden" name="action" value="update"/>
-				<input type="hidden" name="id" value="<?=$_GET['id']?>"
+				<input type="hidden" name="id" value="<?= $_GET['id'] ?>"
 				<label>
 					First name:
-					<input type="text" name="first_name" value="<?=$row['first_name']?>"/>
+					<input type="text" name="first_name" value="<?= $row['first_name'] ?>"/>
 				</label>
 				<br/>
 				<label>
 					Last name:
-					<input type="text" name="last_name" value="<?=$row['last_name']?>"/>
+					<input type="text" name="last_name" value="<?= $row['last_name'] ?>"/>
 				</label>
 				<br/>
 				<label>
 					Birth date:
-					<input type="text" name="birth_date" value="<?=$row['birth_date']?>"/>
+					<input type="text" name="birth_date" value="<?= $row['birth_date'] ?>"/>
 				</label>
 				<hr/>
-				<input type="submit" class="btn btn-primary">
+				<input type="submit" class="btn btn-primary" value="Submit">
 				<a href="?action=search" class="btn btn-secondary">Back</a>
 			</form>
 			<?php
@@ -109,7 +111,7 @@
 		if ( $action === 'insert' ) {
 			if ( isset( $_GET['first_name'], $_GET['last_name'], $_GET['birth_date'] ) ) {
 
-				$insert_query = 'INSERT INTO students(first_name, last_name, birth_date) VALUES ('.
+				$insert_query = 'INSERT INTO students(first_name, last_name, birth_date) VALUES (' .
 				                "'{$_GET['first_name']}', '{$_GET['last_name']}', '{$_GET['birth_date']}')";
 
 				$result = $pdo->exec( $insert_query );
@@ -123,7 +125,7 @@
 				} else {
 					?>
 					<div class="alert alert-warning" role="alert">
-						There was a problem while inserting the new user: <?= json_encode( $pdo->errorInfo() )?>
+						There was a problem while inserting the new user: <?= json_encode( $pdo->errorInfo() ) ?>
 					</div>
 					<?php
 				}
@@ -134,27 +136,29 @@
 			}
 
 			?>
+			<h2>Add Student</h2>
+			<hr/>
 			<form method="get">
 				<input type="hidden" name="action" value="insert"/>
 				<div>
 					<label>
 						First name:
-						<input type="text" name="first_name" >
+						<input type="text" name="first_name">
 					</label>
 				</div>
 				<div>
 					<label>
 						Last name:
-						<input type="text" name="last_name" >
+						<input type="text" name="last_name">
 					</label>
 				</div>
 				<div>
 					<label>
 						Birth date:
-						<input type="text" name="birth_date" >
+						<input type="text" name="birth_date">
 					</label>
 				</div>
-				<input type="submit" class="btn btn-primary">
+				<input type="submit" class="btn btn-primary" value="Submit">
 				<a href="?action=search" class="btn btn-secondary">Back</a>
 			</form>
 			<?php
@@ -172,14 +176,14 @@
 				Last name:
 				<input type="text" name="last_name" value="<?= $_GET['last_name'] ?? '' ?>">
 			</label>
-			<input type="submit">
+			<input type="submit" value="Submit">
 		</form>
 
 		<?php
 		$first_name = $_GET['first_name'] ?? '';
 		$last_name  = $_GET['last_name'] ?? '';
 
-		$count_query  = 'SELECT COUNT(*) as num_rows from students where 1=1 ';
+		$count_query = 'SELECT COUNT(*) as num_rows from students where 1=1 ';
 
 		$query = 'SELECT id, first_name, last_name, birth_date from students where 1=1 ';
 
@@ -198,14 +202,14 @@
 
 		$count = $pdo->query( $count_query . $filters );
 		if ( ! $count ) {
-			throw new Exception( json_encode($pdo->errorInfo()) );
+			throw new Exception( json_encode( $pdo->errorInfo() ) );
 		}
 		$count_result = $count->fetch()['num_rows'];
 
-		$num_pages = ( $count_result / 5 ) + ( ( $count_result % 5 ) ? 1 : 0);
+		$num_pages = ( $count_result / 5 ) + ( ( $count_result % 5 ) ? 1 : 0 );
 
-		$page = $_GET['page'] ?? 1;
-		$query .= $filters . ' LIMIT 5 OFFSET ' . ($page - 1) * 5;
+		$page  = $_GET['page'] ?? 1;
+		$query .= $filters . ' LIMIT 5 OFFSET ' . ( $page - 1 ) * 5;
 
 		$result = $pdo->query( $query );
 
@@ -237,9 +241,9 @@
 			?>
 			</tbody>
 		</table>
-		<p>Number of students: <?=$count_result?></p>
+		<p>Number of students: <?= $count_result ?></p>
 		<?php
-		for ( $i=1; $i <= $num_pages; $i++ ) {
+		for ( $i = 1; $i <= $num_pages; $i ++ ) {
 			if ( $action === 'search' ) {
 				$filter = '&action=search&first_name=' . ( $_GET['first_name'] ?? '' ) . '&last_name=' . ( $_GET['lastname'] ?? '' );
 			} else {
