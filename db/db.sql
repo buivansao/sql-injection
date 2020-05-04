@@ -208,17 +208,19 @@ CREATE TABLE `students` (
 	`postcode`	TEXT,
 	`city`	TEXT,
 	`state`	TEXT,
-	`country`	TEXT
+	`country`	TEXT,
+	`hidden`	INTEGER NOT NULL DEFAULT 0
 );
-INSERT INTO students VALUES(1,'Desiree','Joubert','2007-04-01',NULL,'','','','');
-INSERT INTO students VALUES(2,'Blythe','Weatherall','2007-05-10',NULL,NULL,NULL,NULL,NULL);
-INSERT INTO students VALUES(3,'Felisha','Bookman','2006-03-12',NULL,NULL,NULL,NULL,NULL);
-INSERT INTO students VALUES(4,'Natacha','Pua','2007-11-23',NULL,NULL,NULL,NULL,NULL);
-INSERT INTO students VALUES(5,'Chante','Fenske','2007-12-28',NULL,NULL,NULL,NULL,NULL);
-INSERT INTO students VALUES(6,'Amado','Grimaldi','2007-06-18',NULL,NULL,NULL,NULL,NULL);
-INSERT INTO students VALUES(7,'Valery','Files','2007-03-08',NULL,NULL,NULL,NULL,NULL);
-INSERT INTO students VALUES(8,'Taryn','Carbone','2007-08-01',NULL,NULL,NULL,NULL,NULL);
-INSERT INTO students VALUES(9,'Julissa','Spengler','2007-01-31',NULL,NULL,NULL,NULL,NULL);
-INSERT INTO students VALUES(10,'Brain','Spagnuolo','2007-09-23',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO students VALUES(1,'Desiree','Joubert','2007-04-01',NULL,'','','','', 0);
+INSERT INTO students VALUES(2,'Blythe','Weatherall','2007-05-10',NULL,NULL,NULL,NULL,NULL,0);
+INSERT INTO students VALUES(3,'Felisha','Bookman','2006-03-12',NULL,NULL,NULL,NULL,NULL,0);
+INSERT INTO students VALUES(4,'Natacha','Pua','2007-11-23',NULL,NULL,NULL,NULL,NULL,0);
+INSERT INTO students VALUES(5,'Chante','Fenske','2007-12-28',NULL,NULL,NULL,NULL,NULL,0);
+INSERT INTO students VALUES(6,'Amado','Grimaldi','2007-06-18',NULL,NULL,NULL,NULL,NULL,0);
+INSERT INTO students VALUES(7,'Valery','Files','2007-03-08',NULL,NULL,NULL,NULL,NULL,0);
+INSERT INTO students VALUES(8,'Taryn','Carbone','2007-08-01',NULL,NULL,NULL,NULL,NULL,0);
+INSERT INTO students VALUES(9,'Julissa','Spengler','2007-01-31',NULL,NULL,NULL,NULL,NULL,0);
+INSERT INTO students VALUES(10,'Brain','Spagnuolo','2007-09-23',NULL,NULL,NULL,NULL,NULL,0);
+INSERT INTO students VALUES(11,'Hidden','Student','2001-01-01',NULL,NULL,NULL,NULL,NULL,1);
 
 COMMIT;

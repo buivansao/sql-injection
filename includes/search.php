@@ -22,13 +22,13 @@ if ( ! defined('SQL_INJECTION_IN_PHP' ) ) {
 	$first_name = $_GET['first_name'] ?? '';
 	$last_name  = $_GET['last_name'] ?? '';
 
-	$count_query = 'SELECT COUNT(*) as num_rows from students where 1=1 ';
+	$count_query = 'SELECT COUNT(*) as num_rows from students where hidden=0 ';
 
-	$query = 'SELECT id, first_name, last_name, birth_date from students where 1=1 ';
+	$query = 'SELECT id, first_name, last_name, birth_date from students where hidden=0 ';
 
 	$filters = '';
 
-	if ( $action === 'search' && ( ! empty( $first_name ) || ! empty( $last_name ) ) ) {
+	if (  ! empty( $first_name ) || ! empty( $last_name ) ) {
 
 		if ( isset( $_GET['first_name'] ) && ! empty( $_GET['first_name'] ) ) {
 			$filters .= "AND first_name LIKE '%{$_GET['first_name']}%' ";
@@ -80,7 +80,7 @@ if ( ! defined('SQL_INJECTION_IN_PHP' ) ) {
 	<?php
 	for ( $i = 1; $i <= $num_pages; $i ++ ) {
 		if ( $action === 'search' ) {
-			$filter = '&action=search&first_name=' . ( $_GET['first_name'] ?? '' ) . '&last_name=' . ( $_GET['lastname'] ?? '' );
+			$filter = '&action=search&first_name=' . $first_name . '&last_name=' . $last_name;
 		} else {
 			$filter = '';
 		}
