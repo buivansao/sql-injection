@@ -62,17 +62,19 @@ if ( ! defined('SQL_INJECTION_IN_PHP' ) ) {
 		</thead>
 		<tbody>
 		<?php
-		foreach ( $result as $row ) {
-			echo '<tr>';
-			echo '<th scope="row">' . $row['id'] . '</th>';
-			echo '<td>' . $row['first_name'] . '</td>';
-			echo '<td>' . $row['last_name'] . '</td>';
-			echo '<td>' . $row['birth_date'] . '</td>';
-			echo '<td>';
-			echo '<a href="?action=update&id=' . $row['id'] . '"><i class="fas fa-pencil-alt"></i></a>&nbsp;';
-			echo '<a href="?action=delete&id=' . $row['id'] . '"><i class="fas fa-trash"></i></a>';
-			echo '</td>';
-			echo '</tr>';
+		if ( $result ) {
+			foreach ( $result as $row ) {
+				echo '<tr>';
+				echo '<th scope="row">' . $row['id'] . '</th>';
+				echo '<td>' . $row['first_name'] . '</td>';
+				echo '<td>' . $row['last_name'] . '</td>';
+				echo '<td>' . $row['birth_date'] . '</td>';
+				echo '<td>';
+				echo '<a href="?action=update&id=' . $row['id'] . '"><i class="fas fa-pencil-alt"></i></a>&nbsp;';
+				echo '<a href="?action=delete&id=' . $row['id'] . '"><i class="fas fa-trash"></i></a>';
+				echo '</td>';
+				echo '</tr>';
+			}
 		}
 		?>
 		</tbody>
