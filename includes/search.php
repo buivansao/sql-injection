@@ -39,14 +39,15 @@ if ( ! defined('SQL_INJECTION_IN_PHP' ) ) {
 		}
 	}
 
-	$count_result = $pdo->query( $count_query . $filters )->fetch()['num_rows'];
-
-	$num_pages = ( $count_result / 5 ) + ( ( $count_result % 5 ) ? 1 : 0 );
-
 	$page  = $_GET['page'] ?? 1;
 	$query .= $filters . ' LIMIT 5 OFFSET ' . ( $page - 1 ) * 5;
 
 	$result = $pdo->query( $query );
+
+	$count_query = $pdo->query( $count_query . $filters );
+	$count_result = $count_query ? $count_query->fetch()['num_rows'] : 0;
+	$num_pages = ( $count_result / 5 ) + ( ( $count_result % 5 ) ? 1 : 0 );
+
 
 	?>
 	<table class="table table-striped">
