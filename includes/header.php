@@ -18,7 +18,7 @@ if ( ! defined('SQL_INJECTION_IN_PHP' ) ) {
 </head>
 <body>
 <div class="container">
-	<h1>Manage Students</h1>
+	<h1>Manage Students<?= defined('SAFE_VERSION' ) ? ' (Safe version)' : '' ?></h1>
 	<hr/>
 
 
