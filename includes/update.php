@@ -6,9 +6,9 @@ if ( ! defined( 'SQL_INJECTION_IN_PHP' ) ) {
 
 if ( isset( $_GET['first_name'], $_GET['last_name'], $_GET['birth_date'] ) ) {
 
-	$insert_query = "UPDATE students SET first_name='{$_GET['first_name']}', last_name='{$_GET['last_name']}', birth_date='{$_GET['birth_date']}' WHERE id={$_GET['id']}";
+	$update_query = "UPDATE students SET first_name='{$_GET['first_name']}', last_name='{$_GET['last_name']}', birth_date='{$_GET['birth_date']}' WHERE id={$_GET['id']}";
 
-	$result = $pdo->exec( $insert_query );
+	$result = $pdo->exec( $update_query );
 
 	if ( $result ) {
 		?>
