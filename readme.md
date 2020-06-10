@@ -1,8 +1,8 @@
 # SQL Injections in PHP: Practices to avoid
 
-Code related to article SQL Injections in PHP
+Code related to the blog post [SQL Injections in PHP](https://developer.okta.com/blog/2020/06/15/sql-injection-in-php).
 
-## Requisites
+## Prerequisites
 
 * PHP 7
 * [composer](https://getcomposer.org)
@@ -11,15 +11,9 @@ Code related to article SQL Injections in PHP
 
 ## Install
 
-Execute `composer` to check dependencies and generate the needed autoload code. That will create the corresponding 
-`vendor/`folder.
+Execute `composer install` to check dependencies and generate the needed autoload code. That will create the corresponding `vendor/`folder.
 
 Execute `php -S localhost:8080` to launch a local HTTP server listening in port 8080.
 
 Using your browser, access [http://localhost:8080/findStudent.php](http://localhost:8080/findStudent.php) to access
 the vulnerable Find Student app.
-
- 
-
-
-
