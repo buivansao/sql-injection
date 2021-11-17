@@ -4,9 +4,9 @@ if ( ! defined( 'SQL_INJECTION_IN_PHP' ) ) {
 	die( 'Direct access not permitted' );
 }
 
-if ( isset( $_GET['first_name'], $_GET['last_name'], $_GET['birth_date'] ) ) {
+if ( isset( $_GET['name'], $_GET['gender'], $_GET['birth_date'] ) ) {
 
-	$update_query = "UPDATE students SET first_name='{$_GET['first_name']}', last_name='{$_GET['last_name']}', birth_date='{$_GET['birth_date']}' WHERE id={$_GET['id']}";
+	$update_query = "UPDATE students SET name='{$_GET['name']}', gender='{$_GET['gender']}', birth_date='{$_GET['birth_date']}' WHERE id={$_GET['id']}";
 
 	$result = $pdo->exec( $update_query );
 
@@ -28,7 +28,7 @@ if ( isset( $_GET['first_name'], $_GET['last_name'], $_GET['birth_date'] ) ) {
 	<?php
 } else {
 
-	$query = "SELECT id, first_name, last_name, birth_date from students where id={$_GET['id']}";
+	$query = "SELECT id, name, gender, birth_date from students where id={$_GET['id']}";
 	$row   = $pdo->query( $query )->fetch();
 
 	?>
@@ -38,13 +38,13 @@ if ( isset( $_GET['first_name'], $_GET['last_name'], $_GET['birth_date'] ) ) {
 		<input type="hidden" name="action" value="update"/>
 		<input type="hidden" name="id" value="<?= $_GET['id'] ?>"
 		<label>
-			First name:
-			<input type="text" name="first_name" value="<?= $row['first_name'] ?>"/>
+			Name:
+			<input type="text" name="name" value="<?= $row['name'] ?>"/>
 		</label>
 		<br/>
 		<label>
-			Last name:
-			<input type="text" name="last_name" value="<?= $row['last_name'] ?>"/>
+			Gender:
+			<input type="text" name="gender" value="<?= $row['gender'] ?>"/>
 		</label>
 		<br/>
 		<label>

@@ -4,13 +4,13 @@ if ( ! defined( 'SQL_INJECTION_IN_PHP' ) ) {
 	die( 'Direct access not permitted' );
 }
 
-if ( isset( $_GET['first_name'], $_GET['last_name'], $_GET['birth_date'] ) ) {
+if ( isset( $_GET['name'], $_GET['gender'], $_GET['birth_date'] ) ) {
 
-	$insert_query = 'INSERT INTO students(first_name, last_name, birth_date) VALUES ( :first_name, :last_name, :birth_date )';
+	$insert_query = 'INSERT INTO students(name, gender, birth_date) VALUES ( :name, :gender, :birth_date )';
 
 	$prepared_statement = $pdo->prepare( $insert_query );
-	$prepared_statement->bindParam( 'first_name', $_GET['first_name'] );
-	$prepared_statement->bindParam( 'last_name', $_GET['last_name'] );
+	$prepared_statement->bindParam( 'name', $_GET['name'] );
+	$prepared_statement->bindParam( 'gender', $_GET['gender'] );
 	$prepared_statement->bindParam( 'birth_date', $_GET['birth_date'] );
 	$prepared_statement->execute();
 
@@ -30,6 +30,7 @@ if ( isset( $_GET['first_name'], $_GET['last_name'], $_GET['birth_date'] ) ) {
 		<?php
 	}
 	?>
+	
 	<a class="btn btn-primary active" href="?action=search">Back</a>
 	<?php
 } else {
@@ -40,14 +41,14 @@ if ( isset( $_GET['first_name'], $_GET['last_name'], $_GET['birth_date'] ) ) {
 		<input type="hidden" name="action" value="insert"/>
 		<div>
 			<label>
-				First name:
-				<input type="text" name="first_name">
+				Name:
+				<input type="text" name="name">
 			</label>
 		</div>
 		<div>
 			<label>
-				Last name:
-				<input type="text" name="last_name">
+				Gender:
+				<input type="text" name="gender">
 			</label>
 		</div>
 		<div>
