@@ -35,7 +35,7 @@
                 <form action="login.php" name="login-form" method="post">
                   <div class="form-group first">
                     <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" required pattern="/[A-Za-z\d]/">
+                    <input type="text" class="form-control" id="username" name="username" required pattern="/([A-Za-z\d])\w+/">
                   </div>
                   <div class="form-group last mb-4">
                     <label for="password">Password</label>
