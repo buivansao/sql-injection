@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+
+if ($_SESSION['username'] == null) {
+    header('Location: login.php');
+}
+
+
 define( 'SQL_INJECTION_IN_PHP', true );
 
 require 'vendor/autoload.php';

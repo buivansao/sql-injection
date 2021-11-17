@@ -18,7 +18,27 @@ if ( ! defined('SQL_INJECTION_IN_PHP' ) ) {
 </head>
 <body>
 <div class="container">
-	<h1>Manage Students<?= defined('SAFE_VERSION' ) ? ' (Safe version)' : '' ?></h1>
+	<div class="row">
+		<div class="col-md-10">
+			<h1>Manage Students<?= defined('SAFE_VERSION' ) ? ' (Safe version)' : '' ?></h1>
+		</div>
+		<div class="col-md-2">
+			<?php
+				if ($_SESSION['username']) { ?> 
+					<form method="post" action="manageStudentMysql.php" name="login-form">
+						<button type="submit" name="logout" class="btn btn-danger mt-3 pull-right">Logout</button>
+					</form>		
+			<?php } ?>
+		</div>
+	</div>
 	<hr/>
+
+	<?php
+		if(isset($_POST['logout']) && $_SESSION['username']) {
+			session_destroy();
+			header('Location: login.php');
+    		return;
+		}
+	?>
 
 
